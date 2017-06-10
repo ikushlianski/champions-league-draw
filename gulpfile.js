@@ -54,10 +54,9 @@ gulp.task('css-libs', ['sass'], function() {
 		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
 });
 
-gulp.task('watch', ['css-libs', 'scripts', 'babel', 'browser-sync'], function() {
+gulp.task('watch', ['css-libs', 'scripts', 'browser-sync'], function() {
 	gulp.watch('app/sass/**/*.sass', ['sass']); // Наблюдение за sass файлами в папке sass
 	gulp.watch('app/*.html', browserSync.reload); // Наблюдение за HTML файлами в корне проекта
-	gulp.watch('app/es6/**/*.js', browserSync.reload);   // Наблюдение за JS файлами в папке es6
 	gulp.watch('app/js/**/*.js', browserSync.reload);   // Наблюдение за JS файлами в папке js
 });
 
@@ -76,7 +75,7 @@ gulp.task('img', function() {
 		.pipe(gulp.dest('dist/img')); // Выгружаем на продакшен
 });
 
-gulp.task('build', ['clean', 'img', 'sass', 'scripts', 'babel'], function() {
+gulp.task('build', ['clean', 'img', 'sass', 'scripts'], function() {
 
 	var buildCss = gulp.src([ // Переносим библиотеки в продакшен
 		'app/css/main.css',
