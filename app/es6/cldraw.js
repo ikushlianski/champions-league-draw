@@ -1,4 +1,4 @@
-// initialize the app
+
 var championsLeague = {
   potentialTeams: [],
   // callback(result){
@@ -21,7 +21,7 @@ function prepareTeamsForDraw(){
   if (groupStageTeams.length === 0 ) {
     (function(){
       while (groupStageTeams.length < 32) {
-        for (i = 0; i <= championsLeague.potentialTeams.length-1; i++) {
+        for (var i = 0; i <= championsLeague.potentialTeams.length-1; i++) {
           if (Math.random() <= 0.8) {
             var teamSuccessfullySelected = championsLeague.potentialTeams[i];
             groupStageTeams.push(teamSuccessfullySelected);
@@ -38,7 +38,7 @@ function prepareTeamsForDraw(){
   groupStageTeams.sort((a,b) => a.club_ranking - b.club_ranking);
   // fill pots from 1 to 4, each consisting of 8 teams
   (function fillPots(){
-    for (i = 0; i <= groupStageTeams.length-1; i++) {
+    for (var i = 0; i <= groupStageTeams.length-1; i++) {
       var club = groupStageTeams[i];
       var image = document.createElement("IMG");
       image.src=`${club.club_logo_url}`;

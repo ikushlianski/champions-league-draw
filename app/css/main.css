@@ -1,5 +1,8 @@
 body {
-  font-size: 1.4em; }
+  font-size: 1.4em;
+  background: url("../img/room.png");
+  background-repeat: no-repeat;
+  background-size: cover; }
 
 .buttons {
   margin-top: 1em;
@@ -17,13 +20,18 @@ body {
   margin-top: 2em; }
 
 .potsArea {
-  background-color: #f3f3f7; }
-
-.potsArea h3 {
-  text-align: center; }
+  background: url("../img/pots.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0em -16em;
+  min-height: 17em; }
 
 li.team {
-  font-size: smaller; }
+  font-size: smaller;
+  padding: 0.1em 0em; }
+
+li.team img {
+  padding: 0em 0.5em; }
 
 .teamName {
   height: 2.2em; }
