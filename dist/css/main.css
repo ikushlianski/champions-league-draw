@@ -1,0 +1,18 @@
+body {
+  font-size: 1.4em; }
+
+.group {
+  background-color: #BCBBEE; }
+
+.group {
+  border-bottom: 1px dotted blue;
+  min-height: 8em; }
+
+.pot {
+  background-color: #E2E1F8; }
+
+.potsArea h3 {
+  text-align: center; }
+
+.groupName {
+  font-weight: bold; }
