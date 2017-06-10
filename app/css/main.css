@@ -9,7 +9,6 @@ body {
   float: right; }
 
 .group {
-  border-bottom: 1px dotted blue;
   min-height: 8em;
   padding-top: .5em; }
 
@@ -18,7 +17,15 @@ body {
 
 .groupsArea {
   margin-top: 2em;
-  background-color: rgba(255, 255, 255, 0.7); }
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-border-radius: 5px;
+          border-radius: 5px; }
+
+.potentialTeams {
+  display: block;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 1em; }
 
 .potsArea {
   background-color: rgba(85, 120, 171, 0.3); }
