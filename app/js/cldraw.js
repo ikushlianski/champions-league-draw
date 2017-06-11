@@ -25,7 +25,7 @@ function prepareTeamsForDraw(){
         (function(){
           while (groupStageTeams.length < 32) {
             for (var i = 0; i <= championsLeague.potentialTeams.length-1; i++) {
-              if (Math.random() <= 0.8) {
+              if (Math.random() <= 0.6) {
                 var teamSuccessfullySelected = championsLeague.potentialTeams[i];
                 groupStageTeams.push(teamSuccessfullySelected);
                 championsLeague.potentialTeams.splice(championsLeague.potentialTeams.indexOf(teamSuccessfullySelected), 1);
@@ -64,7 +64,7 @@ var groupH = {group_name: 'Group H', group_nations: []};
 var allGroups = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
 // draw each next team until pots are empty
 $(".drawNext").click(function drawNext(){
-  if($("li.team").length > 0){
+  if($(".potsArea li.team").length > 0){
     // get the pot of the next team to be drawn
     var currentPot = $(".potsArea li.team:first").parent().siblings(".pot").text();
     var currentPotNumber = Number(currentPot.match(/\d/));
@@ -118,9 +118,33 @@ $(".drawNext").click(function drawNext(){
       }
     } else {
       groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
-      var finalGroupForThisClub = groupsAvailableForThisClub[Math.round(Math.random()*groupsAvailableForThisClub.length)];
-      // copy switch loop from the previous if
+      for (let g = 0; g < allGroups.length; g++) {
+        if (allGroups[g].group_nations.length < currentPotNumber) {
+          var groupForForcedDraw = allGroups[g].group_name;
+          break;
+        }
+      }
+      // push club's nation to the list of nations in the forced group
+      for (let p = 0; p < allGroups.length; p++){
+        // loop through all groups and find match with finalGroupForThisClub
+        if (allGroups[p].group_name == groupForForcedDraw) {
+          allGroups[p].group_nations.push(clubCountry);
+          break;
+        }
+      }
+      var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
+      .siblings("table").find("td");
+      for (let c = 0; c < possibleCells.length; c++) {
+        if (possibleCells[c].innerHTML == "") {
+          possibleCells[c].append(drawnTeam);
+          break;
+        }
+      }
     }
-
+    if ($(".potsArea li.team").length == 0) {
+      $(".drawNext").hide();
+      $(".potsArea").hide();
+      $(".groupsArea").after(`<div class="alert alert-info drawCompleted">Draw completed</div>`);
+    }
   }
 });
