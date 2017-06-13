@@ -24,11 +24,15 @@ function prepareTeamsForDraw(){
       if (groupStageTeams.length === 0 ) {
         (function(){
           while (groupStageTeams.length < 32) {
-            for (var i = 0; i <= championsLeague.potentialTeams.length-1; i++) {
-              if (Math.random() <= 0.6) {
-                var teamSuccessfullySelected = championsLeague.potentialTeams[i];
-                groupStageTeams.push(teamSuccessfullySelected);
-                championsLeague.potentialTeams.splice(championsLeague.potentialTeams.indexOf(teamSuccessfullySelected), 1);
+            for (let i = 0; i < championsLeague.potentialTeams.length; i++) {
+              if (Math.random() <= 0.5) {
+                let teamSuccessfullySelected = championsLeague.potentialTeams[i];
+                let country = teamSuccessfullySelected.club_country;
+                let clubsFromSameCountry = groupStageTeams.filter(x => x.club_country == country);
+                if (clubsFromSameCountry.length <= 3) {
+                  groupStageTeams.push(teamSuccessfullySelected);
+                  championsLeague.potentialTeams.splice(championsLeague.potentialTeams.indexOf(teamSuccessfullySelected), 1);
+                }
                 if (groupStageTeams.length === 32) {
                   return;
                 }
@@ -48,7 +52,7 @@ function prepareTeamsForDraw(){
           $("li.team")[i].prepend(image);
           $("li.team")[i].append( document.createTextNode( club.club_name ) );
         }
-      })()
+      })();
     })();
   });
 }
@@ -117,29 +121,30 @@ $(".drawNext").click(function drawNext(){
         }
       }
     } else {
-      groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
-      for (let g = 0; g < allGroups.length; g++) {
-        if (allGroups[g].group_nations.length < currentPotNumber) {
-          var groupForForcedDraw = allGroups[g].group_name;
-          break;
-        }
-      }
-      // push club's nation to the list of nations in the forced group
-      for (let p = 0; p < allGroups.length; p++){
-        // loop through all groups and find match with finalGroupForThisClub
-        if (allGroups[p].group_name == groupForForcedDraw) {
-          allGroups[p].group_nations.push(clubCountry);
-          break;
-        }
-      }
-      var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
-      .siblings("table").find("td");
-      for (let c = 0; c < possibleCells.length; c++) {
-        if (possibleCells[c].innerHTML == "") {
-          possibleCells[c].append(drawnTeam);
-          break;
-        }
-      }
+      console.log('no place for this team');
+      // groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
+      // for (let g = 0; g < allGroups.length; g++) {
+      //   if (allGroups[g].group_nations.length < currentPotNumber) {
+      //     var groupForForcedDraw = allGroups[g].group_name;
+      //     break;
+      //   }
+      // }
+      // // push club's nation to the list of nations in the forced group
+      // for (let p = 0; p < allGroups.length; p++){
+      //   // loop through all groups and find match with finalGroupForThisClub
+      //   if (allGroups[p].group_name == groupForForcedDraw) {
+      //     allGroups[p].group_nations.push(clubCountry);
+      //     break;
+      //   }
+      // }
+      // var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
+      // .siblings("table").find("td");
+      // for (let c = 0; c < possibleCells.length; c++) {
+      //   if (possibleCells[c].innerHTML == "") {
+      //     possibleCells[c].append(drawnTeam);
+      //     break;
+      //   }
+      // }
     }
     if ($(".potsArea li.team").length == 0) {
       $(".drawNext").hide();
