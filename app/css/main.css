@@ -2,7 +2,7 @@ body {
   font-size: 1.4em;
   background: url("../img/room.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-attachment: fixed;
   min-height: 50em; }
 
 .buttons {
