@@ -1,1 +1,0 @@
-1. Don't forget to change reference to js in index.html, now it points to es6 but needs plain js5
