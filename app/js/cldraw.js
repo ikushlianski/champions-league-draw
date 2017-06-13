@@ -121,35 +121,40 @@ $(".drawNext").click(function drawNext(){
         }
       }
     } else {
-      console.log('no place for this team');
-      // groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
-      // for (let g = 0; g < allGroups.length; g++) {
-      //   if (allGroups[g].group_nations.length < currentPotNumber) {
-      //     var groupForForcedDraw = allGroups[g].group_name;
-      //     break;
-      //   }
-      // }
-      // // push club's nation to the list of nations in the forced group
-      // for (let p = 0; p < allGroups.length; p++){
-      //   // loop through all groups and find match with finalGroupForThisClub
-      //   if (allGroups[p].group_name == groupForForcedDraw) {
-      //     allGroups[p].group_nations.push(clubCountry);
-      //     break;
-      //   }
-      // }
-      // var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
-      // .siblings("table").find("td");
-      // for (let c = 0; c < possibleCells.length; c++) {
-      //   if (possibleCells[c].innerHTML == "") {
-      //     possibleCells[c].append(drawnTeam);
-      //     break;
-      //   }
-      // }
+      console.log('nation conflict. resolved...');
+      groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
+      for (let g = 0; g < allGroups.length; g++) {
+        if (allGroups[g].group_nations.length < currentPotNumber) {
+          var groupForForcedDraw = allGroups[g].group_name;
+          break;
+        }
+      }
+      // push club's nation to the list of nations in the forced group
+      for (let p = 0; p < allGroups.length; p++){
+        // loop through all groups and find match with finalGroupForThisClub
+        if (allGroups[p].group_name == groupForForcedDraw) {
+          allGroups[p].group_nations.push(clubCountry);
+          break;
+        }
+      }
+      var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
+      .siblings("table").find("td");
+      for (let c = 0; c < possibleCells.length; c++) {
+        if (possibleCells[c].innerHTML == "") {
+          possibleCells[c].append(drawnTeam);
+          break;
+        }
+      }
     }
     if ($(".potsArea li.team").length == 0) {
       $(".drawNext").hide();
       $(".potsArea").hide();
       $(".groupsArea").after(`<div class="alert alert-info drawCompleted">Draw completed</div>`);
+      $(".drawCompleted").after(`<button class="btn btn-primary replayDraw">Replay</button>`);
     }
   }
+});
+$("body").on("click", ".replayDraw", function(){
+  console.log('reloading...');
+  location.reload();
 });
