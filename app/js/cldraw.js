@@ -45,7 +45,7 @@ function prepareTeamsForDraw(){
       groupStageTeams.sort((a,b) => a.club_ranking - b.club_ranking);
       // fill pots from 1 to 4, each consisting of 8 teams
       (function fillPots(){
-        for (var i = 0; i <= groupStageTeams.length-1; i++) {
+        for (var i = 0; i < groupStageTeams.length; i++) {
           var club = groupStageTeams[i];
           var image = document.createElement("IMG");
           image.src=`${club.club_logo_url}`;
@@ -67,6 +67,7 @@ var groupG = {group_name: 'Group G', group_nations: []};
 var groupH = {group_name: 'Group H', group_nations: []};
 var allGroups = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
 // draw each next team until pots are empty
+var potArray = [];
 $(".drawNext").click(function drawNext(){
   if($(".potsArea li.team").length > 0){
     // get the pot of the next team to be drawn
@@ -75,6 +76,32 @@ $(".drawNext").click(function drawNext(){
     // number of teams remaining in this pot
     var numberOfteamsInPot = $(`.pot:contains(${currentPot})`)
     .siblings(".teamsInPot").find("li.team").length;
+    if (numberOfteamsInPot == 8) {
+      // find the teams with the least possible groups available
+      $(`.pot:contains(${currentPot})`)
+      .siblings(".teamsInPot").find("li.team").each(function(){
+        potArray.push(groupStageTeams.find(x => x.club_name == this.textContent));
+        // on every added team we look to how many groups it can potentially go
+        potArray[potArray.length-1].potentialGroups = (function(){
+          // compare the club's nation with nation arrays of each group
+          let groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
+          for (let i = 0; i<allGroups.length; i++){
+            for (let a = 0; a<allGroups[i].group_nations.length; a++) {
+              // if the club's country matches a country in this current group that we're looping through, don't count this group as a possibility
+              if (potArray[potArray.length-1].club_country == allGroups[i].group_nations[a]) {
+                groupsAvailableForThisClub.splice(groupsAvailableForThisClub.indexOf(allGroups[i]), 1);
+                break;
+              }
+            }
+          }
+          return groupsAvailableForThisClub.length;
+        })();
+      });
+      // sort clubs so that the clubs with the least possible groups available will be drawn first
+      potArray.sort( (a, b) => a.potentialGroups - b.potentialGroups );
+    } else {
+
+    }
     // function describing how to distribute a team in groups to avoid nation conflicts
     function findAvailableGroups(clubCountry) {
       // compare the club's nation with nation arrays of each group
@@ -130,66 +157,70 @@ $(".drawNext").click(function drawNext(){
       }
     }
     // get a random team from the current pot or if there are 2 teams, test both of them
-    if (numberOfteamsInPot == 2) {
-      var drawnTeam = $(`.pot:contains(${currentPot})`)
-      .siblings(".teamsInPot").find("li.team")
-      .get(1);
-      var nextTeam = $(`.pot:contains(${currentPot})`)
-      .siblings(".teamsInPot").find("li.team")
-      .get(0);
-      // get club name and country name for both of the two last groups in the pot
-      var firstClubName = drawnTeam.textContent;
-      var firstClubCountry = groupStageTeams.filter(x => x.club_name == firstClubName)[0].club_country;
-      var nextClubName = nextTeam.textContent;
-      var nextClubCountry = groupStageTeams.filter(x => x.club_name == nextClubName)[0].club_country;
-      // returns finalGroupForThisClub
-      var groupsAvailableForTeam1 = findAvailableGroups(firstClubCountry);
-      var groupsAvailableForTeam2 = findAvailableGroups(nextClubCountry);
-      if (groupsAvailableForTeam1.length > groupsAvailableForTeam2.length) {
-        /* Draw the team with the least number of groups available first thing */
-        var finalGroupForTeam2 = findFinalGroupForThisClub(groupsAvailableForTeam2, nextClubCountry);
-        // find a cell inside finalGroupForThisClub to move the drawnTeam to
-        var possibleCells = $(`.groupName:contains(${finalGroupForTeam2})`)
-        .siblings("table").find("td");
-        for (let c = 0; c < possibleCells.length; c++) {
-          if (possibleCells[c].innerHTML == "") {
-            possibleCells[c].append(nextTeam);
-            break;
-          }
-        }
-      } else {
-        var finalGroupForTeam1 = findFinalGroupForThisClub(groupsAvailableForTeam1, firstClubCountry);
-        // find a cell inside finalGroupForThisClub to move the drawnTeam to
-        var possibleCells = $(`.groupName:contains(${finalGroupForTeam1})`)
-        .siblings("table").find("td");
-        for (let c = 0; c < possibleCells.length; c++) {
-          if (possibleCells[c].innerHTML == "") {
-            possibleCells[c].append(drawnTeam);
-            break;
-          }
-        }
-      }
-    } else {
+    // if (numberOfteamsInPot == 2) {
+    //   var drawnTeam = $(`.pot:contains(${currentPot})`)
+    //   .siblings(".teamsInPot").find("li.team")
+    //   .get(1);
+    //   var nextTeam = $(`.pot:contains(${currentPot})`)
+    //   .siblings(".teamsInPot").find("li.team")
+    //   .get(0);
+    //   // get club name and country name for both of the two last groups in the pot
+    //   var firstClubName = drawnTeam.textContent;
+    //   var firstClubCountry = groupStageTeams.filter(x => x.club_name == firstClubName)[0].club_country;
+    //   var nextClubName = nextTeam.textContent;
+    //   var nextClubCountry = groupStageTeams.filter(x => x.club_name == nextClubName)[0].club_country;
+    //   // returns finalGroupForThisClub
+    //   var groupsAvailableForTeam1 = findAvailableGroups(firstClubCountry);
+    //   var groupsAvailableForTeam2 = findAvailableGroups(nextClubCountry);
+    //   if (groupsAvailableForTeam1.length > groupsAvailableForTeam2.length) {
+    //     /* Draw the team with the least number of groups available first thing */
+    //     var finalGroupForTeam2 = findFinalGroupForThisClub(groupsAvailableForTeam2, nextClubCountry);
+    //     // find a cell inside finalGroupForThisClub to move the drawnTeam to
+    //     var possibleCells = $(`.groupName:contains(${finalGroupForTeam2})`)
+    //     .siblings("table").find("td");
+    //     for (let c = 0; c < possibleCells.length; c++) {
+    //       if (possibleCells[c].innerHTML == "") {
+    //         possibleCells[c].append(nextTeam);
+    //         break;
+    //       }
+    //     }
+    //   } else {
+    //     var finalGroupForTeam1 = findFinalGroupForThisClub(groupsAvailableForTeam1, firstClubCountry);
+    //     // find a cell inside finalGroupForThisClub to move the drawnTeam to
+    //     var possibleCells = $(`.groupName:contains(${finalGroupForTeam1})`)
+    //     .siblings("table").find("td");
+    //     for (let c = 0; c < possibleCells.length; c++) {
+    //       if (possibleCells[c].innerHTML == "") {
+    //         possibleCells[c].append(drawnTeam);
+    //         break;
+    //       }
+    //     }
+    //   }
+    // } else {
       // if number of teams remaining in the pot is not 2
-      var drawnTeam = $(`.pot:contains(${currentPot})`)
-      .siblings(".teamsInPot").find("li.team")
-      .get(Math.round(Math.random()*(numberOfteamsInPot-1)));
-      // find out the club's country
-      var clubName = drawnTeam.textContent;
-      var clubCountry = groupStageTeams.filter(x => x.club_name == clubName)[0].club_country;
-      // returns finalGroupForThisClub
-      var groupsAvailable = findAvailableGroups(clubCountry);
-      var finalGroup = findFinalGroupForThisClub(groupsAvailable, clubCountry);
-      // find a cell inside finalGroupForThisClub to move the drawnTeam to
-      var possibleCells = $(`.groupName:contains(${finalGroup})`)
-      .siblings("table").find("td");
-      for (let c = 0; c < possibleCells.length; c++) {
-        if (possibleCells[c].innerHTML == "") {
-          possibleCells[c].append(drawnTeam);
-          break;
-        }
+    // var drawnTeam = $(`.pot:contains(${currentPot})`)
+    // .siblings(".teamsInPot").find("li.team")
+    // .get(Math.round(Math.random()*(numberOfteamsInPot-1)));
+    var drawnTeam = $(`li.team:contains(${potArray[0].club_name})`).get(0);
+    // find out the club's country
+    var clubName = potArray[0].club_name;
+    var clubCountry = potArray[0].club_country;
+    potArray.splice(0,1);
+    // returns finalGroupForThisClub
+    var groupsAvailable = findAvailableGroups(clubCountry);
+    var finalGroup = findFinalGroupForThisClub(groupsAvailable, clubCountry);
+    // find a cell inside finalGroupForThisClub to move the drawnTeam to
+    var possibleCells = $(`.groupName:contains(${finalGroup})`)
+    .siblings("table").find("td");
+    var emptyCells = [];
+    for (let c = 0; c < possibleCells.length; c++) {
+      if (possibleCells[c].innerHTML == "") {
+        emptyCells.push(possibleCells[c]);
       }
     }
+    let luckyCell = emptyCells[Math.round(Math.random()*(emptyCells.length-1))];
+    luckyCell.append(drawnTeam);
+    // }
     // check if any teams still remain in pots
     if ($(".potsArea li.team").length == 0) {
       $(".drawOptionButtons").hide();
