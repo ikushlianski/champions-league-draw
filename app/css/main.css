@@ -9,7 +9,7 @@ body {
   margin-top: 1em;
   float: right; }
 
-.drawNext {
+.drawNext, .drawAll {
   margin-bottom: 1em; }
 
 .drawCompleted {

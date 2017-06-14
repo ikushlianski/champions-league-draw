@@ -110,30 +110,23 @@ $(".drawNext").click(function drawNext(){
         }
         return finalGroupForThisClub;
       } else {
-        console.log('nation conflict. resolved...');
-        // groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
-        // for (let g = 0; g < allGroups.length; g++) {
-        //   if (allGroups[g].group_nations.length < currentPotNumber) {
-        //     var groupForForcedDraw = allGroups[g].group_name;
-        //     break;
-        //   }
-        // }
-        // // push club's nation to the list of nations in the forced group
-        // for (let p = 0; p < allGroups.length; p++){
-        //   // loop through all groups and find match with finalGroupForThisClub
-        //   if (allGroups[p].group_name == groupForForcedDraw) {
-        //     allGroups[p].group_nations.push(clubCountry);
-        //     break;
-        //   }
-        // }
-        // var possibleCells = $(`.groupName:contains(${groupForForcedDraw})`)
-        // .siblings("table").find("td");
-        // for (let c = 0; c < possibleCells.length; c++) {
-        //   if (possibleCells[c].innerHTML == "") {
-        //     possibleCells[c].append(drawnTeam);
-        //     break;
-        //   }
-        // }
+        console.log('nation conflict. Resolved...');
+        groupsAvailableForThisClub = [groupA, groupB, groupC, groupD, groupE, groupF, groupG, groupH];
+        for (let g = 0; g < allGroups.length; g++) {
+          if (allGroups[g].group_nations.length < currentPotNumber) {
+            var groupForForcedDraw = allGroups[g].group_name;
+            break;
+          }
+        }
+        // push club's nation to the list of nations in the forced group
+        for (let p = 0; p < allGroups.length; p++){
+          // loop through all groups and find match with finalGroupForThisClub
+          if (allGroups[p].group_name == groupForForcedDraw) {
+            allGroups[p].group_nations.push(clubCountry);
+            break;
+          }
+        }
+        return groupForForcedDraw;
       }
     }
     // get a random team from the current pot or if there are 2 teams, test both of them
@@ -199,7 +192,7 @@ $(".drawNext").click(function drawNext(){
     }
     // check if any teams still remain in pots
     if ($(".potsArea li.team").length == 0) {
-      $(".drawNext").hide();
+      $(".drawOptionButtons").hide();
       $(".potsArea").hide();
       $(".groupsArea").after(`<div class="alert alert-info drawCompleted">Draw completed</div>`);
       $(".drawCompleted").after(`<button class="btn btn-primary replayDraw">Replay</button>`);
