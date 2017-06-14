@@ -205,7 +205,6 @@ $(".drawNext").click(function drawNext(){
     // find out the club's country
     var clubName = potArray[0].club_name;
     var clubCountry = potArray[0].club_country;
-    potArray.splice(0,1);
     // returns finalGroupForThisClub
     var groupsAvailable = findAvailableGroups(clubCountry);
     var finalGroup = findFinalGroupForThisClub(groupsAvailable, clubCountry);
@@ -220,6 +219,8 @@ $(".drawNext").click(function drawNext(){
     }
     let luckyCell = emptyCells[Math.round(Math.random()*(emptyCells.length-1))];
     luckyCell.append(drawnTeam);
+    $(`td:contains(${potArray[0].club_name})`).addClass("justAdded");
+    potArray.splice(0,1);
     // }
     // check if any teams still remain in pots
     if ($(".potsArea li.team").length == 0) {
