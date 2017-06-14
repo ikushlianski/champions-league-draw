@@ -1,3 +1,5 @@
 add footer with social links
 
 add description for employers
+
+fix logic for drawing: when going to the next pot, scan all team's group availability and sort clubs by that availability, with clubs with the lowest availability to be drawn first. then pick clubs one by one. 
