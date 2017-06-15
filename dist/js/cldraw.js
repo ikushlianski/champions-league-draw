@@ -27,7 +27,6 @@ function prepareTeamsForDraw(){
             let randomizer = 0;
             for (let i = 0; i < championsLeague.potentialTeams.length; i++) {
               let randomNumber = ((Math.random()*10 + randomizer*10) / 10).toFixed(2);
-              console.log(randomNumber);
               if ( randomNumber <= 0.80 ) {
                 let teamSuccessfullySelected = championsLeague.potentialTeams[i];
                 let country = teamSuccessfullySelected.club_country;
