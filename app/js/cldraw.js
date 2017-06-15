@@ -22,10 +22,13 @@ function prepareTeamsForDraw(){
     (function (){
       // choose any 32 teams from potentialTeams
       if (groupStageTeams.length === 0 ) {
-        (function(){
-          while (groupStageTeams.length < 32) {
+        (function fillPotsWith32teams(maxNumberOfTeams){
+          while (groupStageTeams.length < maxNumberOfTeams) {
+            let randomizer = 0;
             for (let i = 0; i < championsLeague.potentialTeams.length; i++) {
-              if (Math.random() <= 0.5) {
+              let randomNumber = ((Math.random()*10 + randomizer*10) / 10).toFixed(2);
+              console.log(randomNumber);
+              if ( randomNumber <= 0.80 ) {
                 let teamSuccessfullySelected = championsLeague.potentialTeams[i];
                 let country = teamSuccessfullySelected.club_country;
                 let clubsFromSameCountry = groupStageTeams.filter(x => x.club_country == country);
@@ -33,13 +36,15 @@ function prepareTeamsForDraw(){
                   groupStageTeams.push(teamSuccessfullySelected);
                   championsLeague.potentialTeams.splice(championsLeague.potentialTeams.indexOf(teamSuccessfullySelected), 1);
                 }
-                if (groupStageTeams.length === 32) {
+                // adjust randomizer
+                Math.random() >= 0.5 ? randomizer += 0.05 : randomizer-=0.08;
+                if (groupStageTeams.length === maxNumberOfTeams) {
                   return;
                 }
               }
             }
           }
-        })();
+        })(32);
       }
       // sort the chosen clubs by ranking
       groupStageTeams.sort((a,b) => a.club_ranking - b.club_ranking);

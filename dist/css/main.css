@@ -1,32 +1,76 @@
+@import url(../css/cssonly.css);
 body {
-  font-size: 1.4em; }
+  font-size: 1.4em;
+  background: url("../img/room.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 50em; }
 
 .buttons {
   margin-top: 1em;
   float: right; }
 
+.drawNext, .drawAll {
+  margin-bottom: 1em; }
+
+.drawCompleted {
+  margin-top: 1em; }
+
 .group {
-  border-bottom: 1px dotted blue;
   min-height: 8em;
   padding-top: .5em; }
 
 .groupName {
   font-weight: bold; }
 
-.groupsArea {
-  margin-top: 2em; }
+.groupsArea, .fixtureList {
+  margin-top: 1em;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-border-radius: 5px;
+          border-radius: 5px; }
+
+.fixtureList {
+  margin-top: 0em;
+  margin-bottom: 1em; }
+
+.fixturesTable {
+  font-size: 0.9em; }
+
+.match td.home {
+  text-align: right; }
+
+.match img {
+  margin: 0px 5px; }
+
+.matchday:nth-of-type(odd), .matchday:nth-of-type(even) {
+  background-color: #eee !important;
+  font-weight: bold;
+  text-align: center; }
+
+.nav-tabs > li > a {
+  -webkit-border-radius: 0 !important;
+          border-radius: 0 !important; }
+
+.potentialTeams, .replayDraw {
+  display: block;
+  text-align: center;
+  margin: auto;
+  margin-top: 1em;
+  margin-bottom: 1em; }
 
 .potsArea {
-  background: url("../img/pots.jpg");
-  background-repeat: no-repeat;
-  background-size: cover; }
+  background-color: rgba(85, 120, 171, 0.3);
+  margin-bottom: 1em; }
 
-li.team {
+.groupsArea li.team {
   font-size: smaller;
-  padding: 0.1em 0em; }
+  padding: 0.1em 0em;
+  list-style-type: none;
+  white-space: nowrap;
+  max-height: 1em; }
 
 li.team img {
-  padding: 0em 0.5em; }
+  padding: 0em 0.5em 0 0; }
 
 .teamName {
   height: 2.2em; }
@@ -36,3 +80,6 @@ li.team img {
 
 ul.teamsInPot {
   padding-left: 0; }
+
+.vs {
+  text-align: center; }
