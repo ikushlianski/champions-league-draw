@@ -23,18 +23,40 @@ body {
 .groupName {
   font-weight: bold; }
 
-.groupsArea {
-  margin-top: 2em;
+.groupsArea, .fixtureList {
+  margin-top: 1em;
   background-color: rgba(255, 255, 255, 0.7);
   -webkit-border-radius: 5px;
           border-radius: 5px; }
+
+.fixtureList {
+  margin-top: 0em;
+  margin-bottom: 1em; }
+
+.fixturesTable {
+  font-size: 0.9em; }
+
+.match td.home {
+  text-align: right; }
+
+.match img {
+  margin: 0px 5px; }
+
+.matchday:nth-of-type(odd), .matchday:nth-of-type(even) {
+  background-color: #eee !important;
+  font-weight: bold;
+  text-align: center; }
+
+.nav-tabs > li > a {
+  -webkit-border-radius: 0 !important;
+          border-radius: 0 !important; }
 
 .potentialTeams, .replayDraw {
   display: block;
   text-align: center;
   margin: auto;
   margin-top: 1em;
-  margin-bottom: 2em; }
+  margin-bottom: 1em; }
 
 .potsArea {
   background-color: rgba(85, 120, 171, 0.3);
@@ -57,3 +79,6 @@ li.team img {
 
 ul.teamsInPot {
   padding-left: 0; }
+
+.vs {
+  text-align: center; }

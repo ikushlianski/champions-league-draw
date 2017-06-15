@@ -1,4 +1,4 @@
-$(".drawOptionButtons").hide();
+$(".drawOptionButtons, .fixtureList").hide();
 var championsLeague = {
   potentialTeams: [],
   // callback(result){
@@ -224,10 +224,73 @@ $(".drawNext").click(function drawNext(){
     // }
     // check if any teams still remain in pots
     if ($(".potsArea li.team").length == 0) {
-      $(".drawOptionButtons").hide();
-      $(".potsArea").hide();
-      $(".groupsArea").after(`<div class="alert alert-info drawCompleted">Draw completed</div>`);
-      $(".drawCompleted").after(`<button class="btn btn-primary replayDraw">Replay</button>`);
+      $(".drawOptionButtons, .potsArea, .buttons").remove();
+      $(".groupsArea").after(`<button class="btn btn-primary replayDraw">Replay</button>`);
+      $(".fixtureList").show();
+      (function createFixturesCalendar(){
+        for(let g = 0; g < allGroups.length; g++){
+          // create arrays of team names from each of the groups
+          let groupName = allGroups[g].group_name;
+          var thisGroupTeams = [];
+          let numberOfTeamsInGroup = $(`.groupName:contains(${groupName})`).siblings("table").find(".team").length;
+          // create HTML structure of the fixtureList
+          $("ul.nav.nav-tabs").append(`<li role="presentation" ${g==0 ? 'class="active"' : ''}><a href="#${allGroups[g].group_name.replace(/\s/g, '').toLowerCase()}" aria-controls="${allGroups[g].group_name.replace(/\s/g, '').toLowerCase()}" role="tab" data-toggle="tab">${groupName}</a></li>`);
+          $("div.tab-content").append(`<div role="tabpanel" class="tab-pane ${g==0 ? 'active' : ''}" id="${allGroups[g].group_name.replace(/\s/g, '').toLowerCase()}"></div>`);
+          for (let t = 0; t < numberOfTeamsInGroup; t++) {
+            let groupTeam = $(`.groupName:contains(${groupName})`).siblings("table").find(".team")[t].textContent;
+            thisGroupTeams.push(groupTeam);
+          }
+          // create fixtures according to UEFA rules (appending each to a div inside our group's tab)
+          $("div.tab-pane").eq(g).append(
+            `<table class="table  table-condensed fixturesTable">
+              <tbody>
+                <tr class="matchday"><td colspan="3">Matchday 1</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[1]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}">${thisGroupTeams[2]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[3]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}">${thisGroupTeams[0]}</td>
+                </tr>
+                <tr class="matchday"><td colspan="3">Matchday 2</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[0]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}">${thisGroupTeams[1]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[2]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}">${thisGroupTeams[3]}</td>
+                </tr>
+                <tr class="matchday"><td colspan="3">Matchday 3</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[1]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}">${thisGroupTeams[3]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[2]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}">${thisGroupTeams[0]}</td>
+                </tr>
+                <tr class="matchday"><td colspan="3">Matchday 4</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[0]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}">${thisGroupTeams[2]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[3]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}">${thisGroupTeams[1]}</td>
+                </tr>
+                <tr class="matchday"><td colspan="3">Matchday 5</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[0]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}">${thisGroupTeams[3]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[2]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}">${thisGroupTeams[1]}</td>
+                </tr>
+                <tr class="matchday"><td colspan="3">Matchday 6</td></tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[1]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[1]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[0]).club_logo_url}">${thisGroupTeams[0]}</td>
+                </tr>
+                <tr class="match">
+                  <td class="home">${thisGroupTeams[3]}<img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[3]).club_logo_url}"></td><td class="vs">v</td><td class="away"><img src="${groupStageTeams.find(x=>x.club_name == thisGroupTeams[2]).club_logo_url}">${thisGroupTeams[2]}</td>
+                </tr>
+              </tbody>
+            </table>`
+          );
+        }
+      })();
     }
   }
 });
