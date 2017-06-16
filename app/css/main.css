@@ -1,10 +1,26 @@
 @import url(../css/cssonly.css);
+.author {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: small;
+  padding: 0 10px; }
+
+.author a {
+  color: #0d2636; }
+
 body {
   font-size: 1.4em;
   background: url("../img/room.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
-  min-height: 50em; }
+  min-height: 50em;
+  margin-bottom: 4em; }
 
 .buttons {
   margin-top: 1em;
@@ -40,6 +56,9 @@ body {
 .fixturesTable {
   font-size: 0.9em; }
 
+footer .container {
+  bottom: 0; }
+
 .match td.home {
   text-align: right; }
 
@@ -54,6 +73,31 @@ body {
 .nav-tabs > li > a {
   -webkit-border-radius: 0 !important;
           border-radius: 0 !important; }
+
+.portfolio-link {
+  margin-top: 3em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.portfolio-link .container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
 
 .potentialTeams, .replayDraw {
   display: block;

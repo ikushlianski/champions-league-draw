@@ -1,11 +1,19 @@
 @import '../css/cssonly.css'
 
+.author
+  display: flex
+  align-items: center
+  font-size: small
+  padding: 0 10px
+.author a
+  color: rgba(13, 38, 54, 1)
 body
   font-size: 1.4em
   background: url('../img/room.png')
   background-repeat: no-repeat
   background-attachment: fixed
   min-height: 50em
+  margin-bottom: 4em
 
 .buttons
   margin-top: 1em
@@ -39,6 +47,9 @@ body
 .fixturesTable
   font-size: 0.9em
 
+footer .container
+  bottom: 0
+
 .match td.home
   text-align: right
 
@@ -52,6 +63,16 @@ body
 
 .nav-tabs>li>a
   border-radius: 0!important
+
+.portfolio-link
+  margin-top: 3em
+  display: flex
+  align-items: center
+
+.portfolio-link .container
+  display: flex
+  justify-content: center
+  align-items: center
 
 .potentialTeams, .replayDraw
   display: block
