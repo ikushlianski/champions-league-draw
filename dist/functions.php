@@ -1,5 +1,6 @@
 <?php
-$connection = mysqli_connect('127.0.0.1', 'root', '', 'uefa_teams');
+// Hardcoding creds like this is a crime, of course!
+$connection = mysqli_connect('127.0.0.1', 'root', '123456', 'uefa_teams');
 // Check connection
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
