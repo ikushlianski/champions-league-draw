@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect('127.0.0.1', 'root', '', 'uefa_teams');
+$connection = mysqli_connect('HOST', 'USER', 'PASSWORD', 'DB_NAME');
 // Check connection
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
